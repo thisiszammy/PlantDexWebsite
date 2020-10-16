@@ -1,0 +1,8 @@
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\bin\Debug\netcoreapp3.1\PlantDex.Infrastructure.deps.json
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\bin\Debug\netcoreapp3.1\PlantDex.Infrastructure.dll
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\obj\Debug\netcoreapp3.1\PlantDex.Infrastructure.AssemblyInfoInputs.cache
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\obj\Debug\netcoreapp3.1\PlantDex.Infrastructure.AssemblyInfo.cs
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\obj\Debug\netcoreapp3.1\PlantDex.Infrastructure.csprojAssemblyReference.cache
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\bin\Debug\netcoreapp3.1\PlantDex.Infrastructure.runtimeconfig.json
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\bin\Debug\netcoreapp3.1\PlantDex.Infrastructure.runtimeconfig.dev.json
+C:\MJ\WebProjects\PlantDex\PlantDex.Infrastructure\obj\Debug\netcoreapp3.1\PlantDex.Infrastructure.genruntimeconfig.cache

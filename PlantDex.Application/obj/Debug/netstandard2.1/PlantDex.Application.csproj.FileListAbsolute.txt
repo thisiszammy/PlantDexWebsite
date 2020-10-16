@@ -1,0 +1,5 @@
+C:\MJ\WebProjects\PlantDex\PlantDex.Application\bin\Debug\netstandard2.1\PlantDex.Application.deps.json
+C:\MJ\WebProjects\PlantDex\PlantDex.Application\bin\Debug\netstandard2.1\PlantDex.Application.dll
+C:\MJ\WebProjects\PlantDex\PlantDex.Application\obj\Debug\netstandard2.1\PlantDex.Application.csprojAssemblyReference.cache
+C:\MJ\WebProjects\PlantDex\PlantDex.Application\obj\Debug\netstandard2.1\PlantDex.Application.AssemblyInfoInputs.cache
+C:\MJ\WebProjects\PlantDex\PlantDex.Application\obj\Debug\netstandard2.1\PlantDex.Application.AssemblyInfo.cs
