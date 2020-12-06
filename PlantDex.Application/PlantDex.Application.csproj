@@ -14,4 +14,10 @@
     <ProjectReference Include="..\PlantDex.Domain\PlantDex.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
