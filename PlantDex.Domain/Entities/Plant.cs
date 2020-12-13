@@ -10,8 +10,9 @@ namespace PlantDex.Domain.Entities
         public int Id { get; set; }
         public string CommonName { get; set; }
         public string ScientificName { get; set; }
-
-        //Attributes will be stringified JSON array of PlantAttribute
-        public string Attributes { get; set; }
+        public string ShortDescription { get; set; }
+        public string Description { get; set; }
+        public string Attributes { get; set; }  // stringified JSON Array of PlantAttribute
+        public string _Id { get; set; }
     }
 }
