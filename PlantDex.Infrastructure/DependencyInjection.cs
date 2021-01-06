@@ -41,8 +41,8 @@ namespace PlantDex.Infrastructure
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = "" ,
-                    ValidIssuer="",
+                    ValidAudience = "http://plantdex.net" ,
+                    ValidIssuer="http://plantdex.net",
                     RequireExpirationTime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PlantDex Encryption key for JWT Auth")),
                     ValidateIssuerSigningKey = true
