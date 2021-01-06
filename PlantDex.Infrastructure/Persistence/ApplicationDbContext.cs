@@ -22,7 +22,7 @@ namespace PlantDex.Infrastructure.Persistence
             this.currentUserService = currentUserService;
         }
 
-        public DbSet<Plant> plants { get; set; }
+        public DbSet<Plant> Plants { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
