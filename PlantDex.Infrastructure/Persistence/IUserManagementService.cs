@@ -1,11 +1,10 @@
-﻿using PlantDex.Api.ViewModel;
-using PlantDex.Application.DataTransferObjects.Authentication;
+﻿using PlantDex.Application.DTO.UserManagement;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantDex.Application.Services
+namespace PlantDex.Infrastructure.Persistence
 {
     public interface IUserManagementService
     {

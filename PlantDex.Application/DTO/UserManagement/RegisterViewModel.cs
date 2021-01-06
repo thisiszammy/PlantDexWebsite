@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PlantDex.Api.ViewModel
+namespace PlantDex.Application.DTO.UserManagement
 {
     public class RegisterViewModel
     {
