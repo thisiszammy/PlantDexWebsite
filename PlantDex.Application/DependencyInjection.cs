@@ -13,6 +13,8 @@ namespace PlantDex.Application
         {
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddSingleton<ApplicationConstants>();
+            services.AddSingleton<ApplicationSecrets>();
 
             return services;
         }
