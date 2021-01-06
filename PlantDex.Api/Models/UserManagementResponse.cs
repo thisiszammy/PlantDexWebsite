@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PlantDex.Application.DataTransferObjects.Authentication
+namespace PlantDex.Api.Models
 {
     public class UserManagementResponse
     {
