@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PlantDex.Api.Services;
 using PlantDex.Application;
+using PlantDex.Application.Services;
 using PlantDex.Infrastructure;
 
 namespace PlantDex.Api
@@ -25,10 +27,12 @@ namespace PlantDex.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddApplicationLayer();
             services.AddInfrastructureLayer(Configuration);
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
