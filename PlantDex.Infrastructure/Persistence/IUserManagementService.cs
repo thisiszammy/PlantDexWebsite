@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PlantDex.Application.Services
 {
-    public interface IAuthenticationService
+    public interface IUserManagementService
     {
-        public Task<AuthenticationResponse> RegisterAsync(RegisterViewModel registerViewModel);
-        public Task<AuthenticationResponse> LoginAsync(LoginViewModel loginViewModel);
+        public Task<UserManagementResponse> RegisterAsync(RegisterViewModel registerViewModel);
+        public Task<UserManagementResponse> LoginAsync(LoginViewModel loginViewModel);
     }
 }
