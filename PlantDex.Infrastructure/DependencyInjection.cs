@@ -29,8 +29,6 @@ namespace PlantDex.Infrastructure
                 .AddDefaultTokenProviders();
             services.AddHttpContextAccessor();
             
-
-
             return services;
         }
     }
