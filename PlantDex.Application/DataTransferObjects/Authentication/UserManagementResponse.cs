@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PlantDex.Application.DataTransferObjects.Authentication
 {
-    public class AuthenticationResponse
+    public class UserManagementResponse
     {
         public string Message { get; set; }
         public bool IsSuccessful { get; set; }

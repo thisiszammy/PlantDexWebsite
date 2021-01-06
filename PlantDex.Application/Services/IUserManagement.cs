@@ -9,7 +9,7 @@ namespace PlantDex.Application.Services
 {
     public interface IAuthenticationService
     {
-        public Task<AuthenticationResponse> Register(RegisterViewModel registerViewModel);
-        public Task<AuthenticationResponse> Login(LoginViewModel loginViewModel);
+        public Task<AuthenticationResponse> RegisterAsync(RegisterViewModel registerViewModel);
+        public Task<AuthenticationResponse> LoginAsync(LoginViewModel loginViewModel);
     }
 }
