@@ -28,5 +28,6 @@ namespace PlantDex.Application.DTO.UserManagement
         [Required]
         [StringLength(16, MinimumLength = 8)]
         public string ConfirmPassword { get; set; }
+        public string AccountType { get; set; }
     }
 }
