@@ -10,7 +10,7 @@ namespace PlantDex.Application.Services
 {
     public interface IApplicationDbContext
     {
-        public DbSet<Plant> plants { get; set; }
+        public DbSet<Plant> Plants { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
