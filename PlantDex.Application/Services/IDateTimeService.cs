@@ -9,6 +9,8 @@ namespace PlantDex.Application.Services
         public DateTime getCurrentDate();
         public DateTime format(string dateTime, string format, string timezone);
         public DateTime format(DateTime original, string timezone);
-        public void setStandardFormat(string format);
+        public string standardFormat { get; }
+        public string uiFormat { get; }
+        public string timezone { get; }
     }
 }
