@@ -28,6 +28,7 @@ namespace PlantDex.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddApplicationLayer();
             services.AddInfrastructureLayer(Configuration);
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
