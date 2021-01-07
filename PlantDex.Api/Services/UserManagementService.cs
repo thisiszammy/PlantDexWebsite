@@ -70,12 +70,7 @@ namespace PlantDex.Api.Services
 
                 if (!taskCreateRole.Succeeded)
                 {
-                    List<string> errors = new List<string>();
-                    foreach (var error in taskCreateRole.Errors)
-                    {
-                        errors.Add(error.Description);
-                    }
-                    userManagementResponse.Errors = errors;
+                    userManagementResponse.Errors = taskCreateRole.Errors.Select(x=>x.Description);
                     userManagementResponse.IsSuccessful = false;
                     userManagementResponse.Message = "An error has occurred";
                     return userManagementResponse;
@@ -87,12 +82,7 @@ namespace PlantDex.Api.Services
 
             if (!taskCreateUser.Succeeded)
             {
-                List<string> errors = new List<string>();
-                foreach (var error in taskCreateUser.Errors)
-                {
-                    errors.Add(error.Description);
-                }
-                userManagementResponse.Errors = errors;
+                userManagementResponse.Errors = taskCreateUser.Errors.Select(x=>x.Description);
                 userManagementResponse.IsSuccessful = false;
                 userManagementResponse.Message = "An error has occurred";
             }
