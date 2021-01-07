@@ -35,7 +35,7 @@ namespace PlantDex.Api.Services
 
         public async Task<UserManagementResponse> RegisterAsync(RegisterViewModel registerViewModel)
         {
-            UserManagementResponse userManagementResponse = new UserManagementResponse();
+
 
             if (registerViewModel == null)
                 throw new Exception("Register model is null");
@@ -70,10 +70,12 @@ namespace PlantDex.Api.Services
 
                 if (!taskCreateRole.Succeeded)
                 {
-                    userManagementResponse.Errors = taskCreateRole.Errors.Select(x=>x.Description);
-                    userManagementResponse.IsSuccessful = false;
-                    userManagementResponse.Message = "An error has occurred";
-                    return userManagementResponse;
+                    return new UserManagementResponse()
+                    {
+                        Errors = taskCreateRole.Errors.Select(x => x.Description),
+                        IsSuccessful = false,
+                        Message = "An error has occurred"
+                    };
                 }
             }
 
@@ -82,18 +84,23 @@ namespace PlantDex.Api.Services
 
             if (!taskCreateUser.Succeeded)
             {
-                userManagementResponse.Errors = taskCreateUser.Errors.Select(x=>x.Description);
-                userManagementResponse.IsSuccessful = false;
-                userManagementResponse.Message = "An error has occurred";
+                return new UserManagementResponse()
+                {
+                    Errors = taskCreateUser.Errors.Select(x => x.Description),
+                    IsSuccessful = false,
+                    Message = "An error has occurred"
+                };
             }
 
             var taskAssignRole = await userManager.AddToRoleAsync(applicationUser, role.Name);
 
-            userManagementResponse.IsSuccessful = true;
-            userManagementResponse.Errors = null;
-            userManagementResponse.Message = "User successfully registered!";
+            return new UserManagementResponse()
+            {
+                Errors = null,
+                IsSuccessful = true,
+                Message = "User successfully registered"
+            };
 
-            return userManagementResponse;
         }
     }
 }
