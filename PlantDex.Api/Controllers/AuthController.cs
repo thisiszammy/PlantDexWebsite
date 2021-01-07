@@ -2,15 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PlantDex.Api.Models;
+using PlantDex.Application.DTO.UserManagement;
+using PlantDex.Infrastructure.Persistence;
 
 namespace PlantDex.Api.Controllers
 {
-    public class AuthController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IUserManagementService userManagementService;
+
+        public AuthController(IUserManagementService userManagementService)
         {
-            return View();
+            this.userManagementService = userManagementService;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel registerViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await userManagementService.RegisterAsync(registerViewModel);
+
+                if (result.IsSuccessful)
+                    return Ok(result);
+
+                return BadRequest(result);
+            }
+            return BadRequest("Something went wrong!");
         }
     }
 }
