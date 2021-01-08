@@ -68,6 +68,25 @@ namespace PlantDex.Api.Controllers
             return Ok(taskGetPlants);
         }
 
-      
+
+        [HttpGet("search/scientific-name")]
+        public async Task<IActionResult> GetPlantsByScientificName(string scientificName = "")
+        {
+
+            if (scientificName.Trim().Length < 1)
+                return BadRequest(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Request parameter is empty {scientificName}"
+                });
+
+            var taskGetPlants = await mediator.Send(new GetPlantByScientificNameQuery()
+            {
+                ScientificName = scientificName
+            });
+
+            return Ok(taskGetPlants);
+        }
+
     }
 }
