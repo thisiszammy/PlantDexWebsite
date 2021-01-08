@@ -10,6 +10,6 @@ namespace PlantDex.Api.Controllers
     [ApiController]
     public class PlantDexApiController : ControllerBase
     {
-        
+
     }
 }
