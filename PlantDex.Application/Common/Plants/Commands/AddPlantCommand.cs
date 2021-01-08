@@ -43,7 +43,7 @@ namespace PlantDex.Application.Common.Plants.Commands
                 return new PlantsManagementResponse
                 {
                     isSuccessful = true,
-                    message = $"Successfully added plant `{plant.ScientificName}` !"
+                    message = $"Successfully added plant `{plant.ScientificName}`"
                 };
             }
         }

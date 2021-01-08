@@ -8,6 +8,8 @@ namespace PlantDex.Application
     {
         public List<string> accountTypes { get; set; }
 
+        public string version { get; private set; }
+
         public ApplicationConstants()
         {
             accountTypes = new List<string>()
@@ -15,6 +17,10 @@ namespace PlantDex.Application
                 "Person",
                 "Admin"
             };
+
+            this.version = "1.0.0";
         }
+
+        
     }
 }
