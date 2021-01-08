@@ -84,6 +84,7 @@ namespace PlantDex.Api.Services
 
             if (!taskCreateUser.Succeeded)
             {
+                // TODO: Send confirmation email
                 return new UserManagementResponse()
                 {
                     Errors = taskCreateUser.Errors.Select(x => x.Description),
