@@ -9,6 +9,7 @@ using PlantDex.Application;
 using PlantDex.Application.Common.Plants.Commands;
 using PlantDex.Application.Common.Plants.Queries;
 using PlantDex.Application.DTO.PlantsManagement;
+using PlantDex.Domain.Entities;
 
 namespace PlantDex.Api.Controllers
 {
@@ -117,6 +118,42 @@ namespace PlantDex.Api.Controllers
             });
 
             return Ok(taskGetPlants);
+        }
+
+        [HttpPut("update/locations")]
+        public async Task<IActionResult> UpdatePlantLocations([FromBody] AddPlantLocationsCommand addPlantLocationsCommand)
+        {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+            if (ModelState.IsValid)
+            {
+                if (addPlantLocationsCommand == null)
+                    return BadRequest(new PlantsManagementResponse
+                    {
+                        isSuccessful = false,
+                        message = "Request body is empty"
+                    });
+
+                var taskAddPlantLocation = await mediator.Send(addPlantLocationsCommand);
+
+                if (taskAddPlantLocation.isSuccessful)
+                    return Ok(taskAddPlantLocation);
+                else
+                    return BadRequest(taskAddPlantLocation);
+            }
+
+            return BadRequest(new PlantsManagementResponse
+            {
+                isSuccessful = false,
+                message = "An error has occurred"
+            });
         }
 
     }
