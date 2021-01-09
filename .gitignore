@@ -1,5 +1,6 @@
-PlantDex.Application/ApplicationSecrets
-PlantDex.Api/appsettings
+PlantDex.Application/ApplicationSecrets.cs
+PlantDex.Api/appsettings.json
+PlantDex.Api/appsettings.Development.json
 
 # User-specific files
 *.suo
