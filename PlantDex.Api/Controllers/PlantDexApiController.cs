@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PlantDex.Application;
 using PlantDex.Application.Common.Plants.Commands;
 using PlantDex.Application.Common.Plants.Queries;
 using PlantDex.Application.DTO.PlantsManagement;
@@ -16,15 +17,27 @@ namespace PlantDex.Api.Controllers
     public class PlantDexApiController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly ApplicationSecrets applicationSecrets;
 
-        public PlantDexApiController(IMediator mediator)
+        public PlantDexApiController(IMediator mediator,
+            ApplicationSecrets applicationSecrets)
         {
             this.mediator = mediator;
+            this.applicationSecrets = applicationSecrets;
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddPlant([FromBody] AddPlantCommand addPlantCommand)
         {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+            
 
             if (ModelState.IsValid)
             {
@@ -51,6 +64,15 @@ namespace PlantDex.Api.Controllers
         [HttpGet("search/common-name")]
         public async Task<IActionResult> GetPlantsByCommonName(string commonName = "")
         {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
 
             if (commonName.Trim().Length < 1)
                 return BadRequest(new PlantsManagementResponse
@@ -72,6 +94,15 @@ namespace PlantDex.Api.Controllers
         [HttpGet("search/scientific-name")]
         public async Task<IActionResult> GetPlantsByScientificName(string scientificName = "")
         {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
 
             if (scientificName.Trim().Length < 1)
                 return BadRequest(new PlantsManagementResponse

@@ -20,7 +20,7 @@ namespace PlantDex.Api.Controllers
             this.applicationConstants = applicationConstants;
         }
 
-        [HttpGet("/version")]
+        [HttpGet("version")]
         public IActionResult GetConfig()
         {
             return Ok(new RemoteConfigResponse
