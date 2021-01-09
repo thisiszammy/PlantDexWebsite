@@ -10,7 +10,7 @@ namespace PlantDex.Api.Services
 {
     public class CurrentUserService : ICurrentUserService
     {
-        public string currentUser { get; set; }
+        public string currentUser { get; set; } 
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
             this.currentUser = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -12,6 +12,7 @@ using PlantDex.Api.Services;
 using PlantDex.Application;
 using PlantDex.Application.Services;
 using PlantDex.Infrastructure;
+using PlantDex.Infrastructure.Persistence;
 
 namespace PlantDex.Api
 {
@@ -31,6 +32,7 @@ namespace PlantDex.Api
             services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddApplicationLayer();
             services.AddInfrastructureLayer(Configuration);
+            services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMvc();
         }
