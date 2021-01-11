@@ -156,5 +156,37 @@ namespace PlantDex.Api.Controllers
             });
         }
 
+        [HttpDelete("delete/location")]
+        public async Task<IActionResult> DeletePlantLocation(string plantId = "", string lat = "", string lng = "")
+        {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+            if (plantId.Trim().Length < 1 || lat.Trim().Length < 1 || lng.Trim().Length < 1)
+                return BadRequest(new PlantsManagementResponse
+                {
+                    isSuccessful = false,   
+                    message = "Invalid Request Parameters"
+                });
+
+            var taskDeleteLocation = await mediator.Send(new DeletePlantLocationCommand
+            {
+                lat = lat,
+                lng = lng,
+                plantId = plantId
+            });
+
+            if (taskDeleteLocation.isSuccessful)
+                return Ok(taskDeleteLocation);
+            else
+                return BadRequest(taskDeleteLocation);
+        }
+
     }
 }
