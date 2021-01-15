@@ -61,7 +61,7 @@ namespace PlantDex.Api.Controllers
                 message = "An unknown error has occurred"
             });
         }
-
+        
         [HttpGet("search/common-name")]
         public async Task<IActionResult> GetPlantsByCommonName(string commonName = "")
         {
@@ -186,6 +186,57 @@ namespace PlantDex.Api.Controllers
                 return Ok(taskDeleteLocation);
             else
                 return BadRequest(taskDeleteLocation);
+        }
+
+        [HttpGet("search/name")]
+        public async Task<IActionResult> GetPlantsByName(string name = "")
+        {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+
+            if (name.Trim().Length < 1)
+                return BadRequest(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Request parameter is empty {commonName}"
+                });
+
+            var taskGetPlants = await mediator.Send(new GetPlantByCommonNameQuery()
+            {
+                CommonName = name
+            });
+
+            var taskGetPlants2 = await mediator.Send(new GetPlantByScientificNameQuery()
+            {
+
+                ScientificName = name
+            });
+
+            PlantsManagementResponse plantsManagementResponse = new PlantsManagementResponse();
+            List<string> errors = new List<string>();
+            List<Plant> plants = new List<Plant>();
+
+            plantsManagementResponse.isSuccessful = taskGetPlants.isSuccessful && taskGetPlants2.isSuccessful;
+
+            plants.AddRange((taskGetPlants.plants == null) ? new List<Plant>() : taskGetPlants.plants);
+            plants.AddRange((taskGetPlants2.plants == null) ? new List<Plant>() : taskGetPlants2.plants);
+
+            errors.AddRange((taskGetPlants.errors == null) ? new List<string>() : taskGetPlants.errors);
+            errors.AddRange((taskGetPlants2.errors == null) ? new List<string>() : taskGetPlants2.errors);
+
+            plantsManagementResponse.errors = errors;
+            plantsManagementResponse.plants = plants.OrderBy(x=>x.ScientificName).ToList();
+
+            plantsManagementResponse.message = "1) " + taskGetPlants.message + " - 2) " + taskGetPlants2.message;
+
+            return Ok(plantsManagementResponse);
         }
 
     }
