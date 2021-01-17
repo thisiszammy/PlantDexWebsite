@@ -11,6 +11,7 @@ namespace PlantDex.Application.Services
     public interface IApplicationDbContext
     {
         public DbSet<Plant> Plants { get; set; }
+        public DbSet<ContributionSubmission> ContributionSubmissions { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
