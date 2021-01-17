@@ -16,7 +16,7 @@ namespace PlantDex.Application.Common.ContributionSubmissions.Commands
         public string scientificName { get; set; }
         public string commonName { get; set; }
         public string remarks { get; set; }
-        public List<PlantLocation> locations { get; set; }
+        public string locations { get; set; }
 
         public class AddContributionSubmissionCommandHandler : IRequestHandler<AddContributionSubmissionCommand, ContributionsManagementResponse>
         {
@@ -34,7 +34,7 @@ namespace PlantDex.Application.Common.ContributionSubmissions.Commands
                     ScientificName = request.scientificName,
                     CreatedOn = DateTime.Now,
                     Remarks = request.remarks,
-                    Locations = (request == null) ? null : JsonConvert.SerializeObject(request.locations)
+                    Locations = request.locations
                 };
 
                 ContributionsManagementResponse contributionsManagementResponse = new ContributionsManagementResponse()
