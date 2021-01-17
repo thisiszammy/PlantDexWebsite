@@ -9,6 +9,6 @@ namespace PlantDex.Domain.Entities
     {
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-        public double Intensity { get; set; }
+        public string LocationName { get; set; }
     }
 }
