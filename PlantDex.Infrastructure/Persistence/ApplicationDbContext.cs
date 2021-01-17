@@ -26,6 +26,7 @@ namespace PlantDex.Infrastructure.Persistence
         }
 
         public DbSet<Plant> Plants { get; set; }
+        public DbSet<ContributionSubmission> ContributionSubmissions { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
