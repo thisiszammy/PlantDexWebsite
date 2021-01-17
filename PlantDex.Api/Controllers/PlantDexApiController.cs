@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlantDex.Application;
+using PlantDex.Application.Common.ContributionSubmissions.Commands;
 using PlantDex.Application.Common.Plants.Commands;
 using PlantDex.Application.Common.Plants.Queries;
 using PlantDex.Application.DTO.PlantsManagement;
@@ -238,11 +239,42 @@ namespace PlantDex.Api.Controllers
             return Ok(plantsManagementResponse);
         }
 
-        [HttpPost("contribute/plant")]
-        public async Task<IActionResult> AddContribution()
+        [HttpPost("contribute/submit")]
+        public async Task<IActionResult> AddContribution([FromBody] AddContributionSubmissionCommand addContributionSubmissionCommand)
         {
+            string accessKey = Request.Headers["Authorization"].ToString();
 
-            return null;
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+            if(addContributionSubmissionCommand == null)
+                return BadRequest(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Request Parameters"
+                });
+
+            if(addContributionSubmissionCommand.commonName == null || addContributionSubmissionCommand.remarks == null || addContributionSubmissionCommand.scientificName == null || 
+                addContributionSubmissionCommand.scientificName == null)
+                return BadRequest(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Request Parameters"
+                });
+
+            var taskAddContribution = await mediator.Send(new AddContributionSubmissionCommand
+            {
+                commonName = addContributionSubmissionCommand.commonName,
+                locations = addContributionSubmissionCommand.locations,
+                remarks = addContributionSubmissionCommand.remarks,
+                scientificName = addContributionSubmissionCommand.scientificName
+            });
+
+            return Ok(taskAddContribution);
         }
 
     }

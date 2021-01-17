@@ -34,7 +34,7 @@ namespace PlantDex.Application.Common.ContributionSubmissions.Commands
                     ScientificName = request.scientificName,
                     CreatedOn = DateTime.Now,
                     Remarks = request.remarks,
-                    Locations = JsonConvert.SerializeObject(request.locations)
+                    Locations = (request == null) ? null : JsonConvert.SerializeObject(request.locations)
                 };
 
                 ContributionsManagementResponse contributionsManagementResponse = new ContributionsManagementResponse()
