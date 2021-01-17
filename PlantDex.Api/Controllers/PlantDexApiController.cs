@@ -91,7 +91,6 @@ namespace PlantDex.Api.Controllers
             return Ok(taskGetPlants);
         }
 
-
         [HttpGet("search/scientific-name")]
         public async Task<IActionResult> GetPlantsByScientificName(string scientificName = "")
         {
@@ -237,6 +236,13 @@ namespace PlantDex.Api.Controllers
             plantsManagementResponse.message = "1) " + taskGetPlants.message + " - 2) " + taskGetPlants2.message;
 
             return Ok(plantsManagementResponse);
+        }
+
+        [HttpPost("contribute/plant")]
+        public async Task<IActionResult> AddContribution()
+        {
+
+            return null;
         }
 
     }
