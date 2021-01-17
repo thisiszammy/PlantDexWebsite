@@ -1,4 +1,4 @@
-.ApplicationSecrets.cs
+.PlantDex.Application/ApplicationSecrets.cs
 
 # User-specific files
 *.suo
