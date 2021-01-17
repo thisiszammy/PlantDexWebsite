@@ -226,13 +226,13 @@ namespace PlantDex.Api.Controllers
             plantsManagementResponse.isSuccessful = taskGetPlants.isSuccessful && taskGetPlants2.isSuccessful;
 
             plants.AddRange((taskGetPlants.plants == null) ? new List<Plant>() : taskGetPlants.plants);
-            plants.AddRange((taskGetPlants2.plants == null) ? new List<Plant>() : taskGetPlants2.plants);
-
             errors.AddRange((taskGetPlants.errors == null) ? new List<string>() : taskGetPlants.errors);
+
+            plants.AddRange((taskGetPlants2.plants == null) ? new List<Plant>() : taskGetPlants2.plants);
             errors.AddRange((taskGetPlants2.errors == null) ? new List<string>() : taskGetPlants2.errors);
 
-            plantsManagementResponse.errors = errors;
-            plantsManagementResponse.plants = plants.OrderBy(x=>x.ScientificName).ToList();
+            plantsManagementResponse.errors = errors.Distinct().ToList();
+            plantsManagementResponse.plants = plants.Distinct().OrderBy(x=>x.ScientificName).ToList();
 
             plantsManagementResponse.message = "1) " + taskGetPlants.message + " - 2) " + taskGetPlants2.message;
 
