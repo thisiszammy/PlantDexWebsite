@@ -16,11 +16,9 @@ namespace PlantDex.Application.DTO.UserManagement
         public string LastName { get; set; }
         [Required]
         public string Username { get; set; }
-        [Required]
         [StringLength(50)]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
         public string PhoneNumber { get; set; }
         [Required]
         [StringLength(16, MinimumLength = 8)]
@@ -28,7 +26,6 @@ namespace PlantDex.Application.DTO.UserManagement
         [Required]
         [StringLength(16, MinimumLength = 8)]
         public string ConfirmPassword { get; set; }
-        [Required]
         public string AccountType { get; set; }
     }
 }
