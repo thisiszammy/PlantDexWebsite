@@ -12,6 +12,8 @@ namespace PlantDex.Application.Services
     {
         public DbSet<Plant> Plants { get; set; }
         public DbSet<ContributionSubmission> ContributionSubmissions { get; set; }
+        public DbSet<SubmittedAppRating> SubmittedAppRatings { get; set; }
+        public DbSet<SubmittedComplaint> SubmittedComplaints { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
