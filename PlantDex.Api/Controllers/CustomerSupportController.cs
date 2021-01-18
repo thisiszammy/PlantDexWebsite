@@ -33,7 +33,6 @@ namespace PlantDex.Api.Controllers
         }
 
         [HttpPost("rating/submit")]
-        [AllowAnonymous]
         public async Task<IActionResult> PostRating([FromBody] AddAppRatingCommand addAppRatingCommand)
         {
 
@@ -76,7 +75,6 @@ namespace PlantDex.Api.Controllers
         }
 
         [HttpPost("complaints/file")]
-        [AllowAnonymous]
         public async Task<IActionResult> PostComplaints([FromBody] AddSubmittedComplaintCommand addSubmittedComplaintCommand)
         {
             string accessKey = Request.Headers["Authorization"].ToString();
