@@ -8,6 +8,7 @@ namespace PlantDex.Application.DTO.UserManagement
     {
         public string Message { get; set; }
         public bool IsSuccessful { get; set; }
+        public string _Id { get; set; }
         public IEnumerable<string> Errors { get; set; }
     }
 }

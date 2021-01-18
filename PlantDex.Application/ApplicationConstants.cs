@@ -15,7 +15,8 @@ namespace PlantDex.Application
             accountTypes = new List<string>()
             {
                 "Person",
-                "Admin"
+                "Admin",
+                "Scientist"
             };
 
             this.version = "1.0.0";

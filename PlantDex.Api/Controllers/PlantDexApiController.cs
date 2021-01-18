@@ -28,6 +28,7 @@ namespace PlantDex.Api.Controllers
             this.applicationSecrets = applicationSecrets;
         }
 
+        // Plant Management related endpoints
         [HttpPost("add")]
         public async Task<IActionResult> AddPlant([FromBody] AddPlantCommand addPlantCommand)
         {
@@ -277,5 +278,6 @@ namespace PlantDex.Api.Controllers
             return Ok(taskAddContribution);
         }
 
+        
     }
 }
