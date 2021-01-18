@@ -10,5 +10,6 @@ namespace PlantDex.Infrastructure.Persistence
     {
         public Task<UserManagementResponse> RegisterAsync(RegisterViewModel registerViewModel);
         public Task<UserManagementResponse> LoginAsync(LoginViewModel loginViewModel);
+        public Task<bool> IsValidUserId(string id);
     }
 }

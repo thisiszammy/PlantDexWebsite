@@ -28,6 +28,11 @@ namespace PlantDex.Api.Services
             this.applicationConstants = applicationConstants;
         }
 
+        public async Task<bool> IsValidUserId(string id)
+        {
+            return (await userManager.FindByIdAsync(id)) != null;
+        }
+
         public async Task<UserManagementResponse> LoginAsync(LoginViewModel loginViewModel)
         {
             if (loginViewModel == null)
