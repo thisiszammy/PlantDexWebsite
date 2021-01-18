@@ -21,6 +21,7 @@
   <ItemGroup>
     <Folder Include="Common\SubmittedAppRatings\Queries\" />
     <Folder Include="Common\ContributionSubmissions\Queries\" />
+    <Folder Include="Common\SubmittedComplaints\Queries\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
 
