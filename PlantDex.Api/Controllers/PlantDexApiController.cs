@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlantDex.Application;
@@ -30,6 +31,7 @@ namespace PlantDex.Api.Controllers
 
         // Plant Management related endpoints
         [HttpPost("add")]
+        [AllowAnonymous]
         public async Task<IActionResult> AddPlant([FromBody] AddPlantCommand addPlantCommand)
         {
             string accessKey = Request.Headers["Authorization"].ToString();
@@ -122,6 +124,7 @@ namespace PlantDex.Api.Controllers
         }
 
         [HttpPut("update/locations")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdatePlantLocations([FromBody] AddPlantLocationsCommand addPlantLocationsCommand)
         {
             string accessKey = Request.Headers["Authorization"].ToString();
@@ -241,6 +244,7 @@ namespace PlantDex.Api.Controllers
         }
 
         [HttpPost("contribute/submit")]
+        [AllowAnonymous]
         public async Task<IActionResult> AddContribution([FromBody] AddContributionSubmissionCommand addContributionSubmissionCommand)
         {
             string accessKey = Request.Headers["Authorization"].ToString();
