@@ -28,9 +28,30 @@ namespace PlantDex.Api.Services
             this.applicationConstants = applicationConstants;
         }
 
-        public Task<UserManagementResponse> LoginAsync(LoginViewModel loginViewModel)
+        public async Task<bool> IsValidUserId(string id)
         {
-            throw new NotImplementedException();
+            return (await userManager.FindByIdAsync(id)) != null;
+        }
+
+        public async Task<UserManagementResponse> LoginAsync(LoginViewModel loginViewModel)
+        {
+            if (loginViewModel == null)
+                throw new Exception("Login Model is null");
+
+            ApplicationUser applicationUser = (await userManager.FindByNameAsync(loginViewModel.Username));
+
+
+            var taskSignInUser = await signInManager.PasswordSignInAsync(applicationUser, loginViewModel.Password, false, false);
+
+            if (!taskSignInUser.Succeeded)
+                return new UserManagementResponse()
+                {
+                    Errors = null,
+                    IsSuccessful = false,
+                    Message = "Invalid Login"
+                };
+
+            return new UserManagementResponse() { Errors = null, IsSuccessful = true, Message = "Successfully Logged In", _Id = (await userManager.FindByNameAsync(loginViewModel.Username)).Id };
         }
 
         public async Task<UserManagementResponse> RegisterAsync(RegisterViewModel registerViewModel)
@@ -38,13 +59,27 @@ namespace PlantDex.Api.Services
 
 
             if (registerViewModel == null)
-                throw new Exception("Register model is null");
+                return new UserManagementResponse()
+                {
+                    IsSuccessful = false,
+                    Message = "Register Model is empty"
+                };
 
             if (registerViewModel.Password != registerViewModel.ConfirmPassword)
-                throw new Exception("Passwords not matching");
+                return new UserManagementResponse()
+                {
+                    IsSuccessful = false,
+                    Message = "Passwords not matching"
+                };
+
 
             if (!applicationConstants.accountTypes.Contains(registerViewModel.AccountType))
-                throw new Exception("Invalid account type");
+                return new UserManagementResponse()
+                {
+                    IsSuccessful = false,
+                    Message = "Invalid account type"
+                };
+
 
 
             ApplicationUser applicationUser = new ApplicationUser()
@@ -54,7 +89,8 @@ namespace PlantDex.Api.Services
                 LastName = registerViewModel.LastName,
                 Email = registerViewModel.Email,
                 PhoneNumber = registerViewModel.PhoneNumber,
-                UserName = registerViewModel.Username
+                UserName = registerViewModel.Username,
+                IsAdminApproved = (registerViewModel.AccountType == "Person") ? true : false
             };
 
             IdentityRole role = new IdentityRole()

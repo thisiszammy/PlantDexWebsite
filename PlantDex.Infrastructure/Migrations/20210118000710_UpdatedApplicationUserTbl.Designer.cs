@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlantDex.Infrastructure.Persistence;
 
 namespace PlantDex.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210118000710_UpdatedApplicationUserTbl")]
+    partial class UpdatedApplicationUserTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,78 +234,6 @@ namespace PlantDex.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Plants");
-                });
-
-            modelBuilder.Entity("PlantDex.Domain.Entities.SubmittedAppRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PreviousValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SubmittedAppRatings");
-                });
-
-            modelBuilder.Entity("PlantDex.Domain.Entities.SubmittedComplaint", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PreviousValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("appVersion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("phoneVersion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("remarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SubmittedComplaints");
                 });
 
             modelBuilder.Entity("PlantDex.Infrastructure.Persistence.ApplicationUser", b =>

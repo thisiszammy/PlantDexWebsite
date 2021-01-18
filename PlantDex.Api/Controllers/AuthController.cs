@@ -33,7 +33,39 @@ namespace PlantDex.Api.Controllers
 
                 return BadRequest(result);
             }
-            return BadRequest("Something went wrong!");
+            return BadRequest(new UserManagementResponse()
+            {
+                IsSuccessful = false,
+                Message = "Something went wrong!"
+            });
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginViewModel loginViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var taskSignIn = await userManagementService.LoginAsync(loginViewModel);
+                if (!taskSignIn.IsSuccessful)
+                    return Ok(new UserManagementResponse()
+                    {
+                        IsSuccessful = false,
+                        Message = "Invalid Login"
+                    });
+                return Ok(new UserManagementResponse()
+                {
+                    Errors = null,
+                    IsSuccessful = true,
+                    Message = "Successfull Login",
+                    _Id = taskSignIn._Id
+                });
+            }
+
+            return BadRequest(new UserManagementResponse()
+            {
+                IsSuccessful = false,
+                Message = "Something went wrong!"
+            });
         }
     }
 }
