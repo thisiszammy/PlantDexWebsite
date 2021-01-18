@@ -23,7 +23,6 @@ namespace PlantDex.Api.Controllers
         }
 
         [HttpPost("register")]
-        [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
@@ -43,7 +42,6 @@ namespace PlantDex.Api.Controllers
         }
 
         [HttpPost("login")]
-        [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody] LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
