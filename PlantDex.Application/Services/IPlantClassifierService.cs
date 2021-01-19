@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PlantDex.Application.Services
 {
-    public interface IPlantClassifier
+    public interface IPlantClassifierService
     {
         public List<string> classifyImage(string filePath);
     }
