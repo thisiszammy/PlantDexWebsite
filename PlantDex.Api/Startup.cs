@@ -33,6 +33,7 @@ namespace PlantDex.Api
             services.AddApplicationLayer();
             services.AddInfrastructureLayer(Configuration);
             services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IPlantClassifierService, PlantClassifierService>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMvc();
         }
