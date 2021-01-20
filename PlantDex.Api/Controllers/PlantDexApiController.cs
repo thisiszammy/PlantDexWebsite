@@ -11,6 +11,7 @@ using PlantDex.Application.Common.ContributionSubmissions.Commands;
 using PlantDex.Application.Common.Plants.Commands;
 using PlantDex.Application.Common.Plants.Queries;
 using PlantDex.Application.DTO.PlantsManagement;
+using PlantDex.Application.Services;
 using PlantDex.Domain.Entities;
 
 namespace PlantDex.Api.Controllers
@@ -21,12 +22,15 @@ namespace PlantDex.Api.Controllers
     {
         private readonly IMediator mediator;
         private readonly ApplicationSecrets applicationSecrets;
+        private readonly IPlantClassifierService plantClassifierService;
 
         public PlantDexApiController(IMediator mediator,
-            ApplicationSecrets applicationSecrets)
+            ApplicationSecrets applicationSecrets,
+            IPlantClassifierService plantClassifierService)
         {
             this.mediator = mediator;
             this.applicationSecrets = applicationSecrets;
+            this.plantClassifierService = plantClassifierService;
         }
 
         // Plant Management related endpoints
@@ -278,7 +282,11 @@ namespace PlantDex.Api.Controllers
 
             return Ok(taskAddContribution);
         }
-
         
+        [HttpGet("classify/test")]
+        public IActionResult ClassifyPlant()
+        {
+            return Ok(plantClassifierService.classifyImage(string.Empty)[0]);
+        }
     }
 }
