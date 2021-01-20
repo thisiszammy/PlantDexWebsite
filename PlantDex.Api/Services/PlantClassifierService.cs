@@ -14,18 +14,19 @@ namespace PlantDex.Api.Services
         {
             ProcessStartInfo classifyImage = new ProcessStartInfo();
             classifyImage.FileName = "python";
-            classifyImage.Arguments = string.Format("\"{0}\" \"{1}\"", filePath, string.Empty);
+            classifyImage.Arguments = string.Format("\"{0}\" \"{1}\"", "C:\\MJ\\WebProjects\\PlantDex\\PlantDex.Api\\wwwroot\\image_classifier\\classify_plant.py", string.Empty);
             classifyImage.UseShellExecute = false;
             classifyImage.CreateNoWindow = true;
             classifyImage.RedirectStandardOutput = true;
             classifyImage.RedirectStandardError = true; 
+            
             using (Process process = Process.Start(classifyImage))
             {
                 using (StreamReader reader = process.StandardOutput)
                 {
                     string stderr = process.StandardError.ReadToEnd(); 
                     string result = reader.ReadToEnd();
-                    return new List<string>() { result};
+                    return new List<string>() { result, stderr};
                 }
             }
         }
