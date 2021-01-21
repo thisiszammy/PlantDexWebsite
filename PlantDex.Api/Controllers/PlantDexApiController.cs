@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PlantDex.Application;
 using PlantDex.Application.Common.ContributionSubmissions.Commands;
 using PlantDex.Application.Common.Plants.Commands;
 using PlantDex.Application.Common.Plants.Queries;
 using PlantDex.Application.DTO.PlantsManagement;
+using PlantDex.Application.Services;
 using PlantDex.Domain.Entities;
 
 namespace PlantDex.Api.Controllers
@@ -21,12 +25,18 @@ namespace PlantDex.Api.Controllers
     {
         private readonly IMediator mediator;
         private readonly ApplicationSecrets applicationSecrets;
+        private readonly IPlantClassifierService plantClassifierService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public PlantDexApiController(IMediator mediator,
-            ApplicationSecrets applicationSecrets)
+            ApplicationSecrets applicationSecrets,
+            IPlantClassifierService plantClassifierService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.mediator = mediator;
             this.applicationSecrets = applicationSecrets;
+            this.plantClassifierService = plantClassifierService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         // Plant Management related endpoints
@@ -65,6 +75,35 @@ namespace PlantDex.Api.Controllers
             });
         }
         
+        [HttpGet("get")]
+        public async Task<IActionResult> GetPlantById(int Id)
+        {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+
+            if (Id == 0)
+                return BadRequest(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Request parameter is empty {commonName}"
+                });
+
+            var taskGetPlants = await mediator.Send(new GetPlantByIdQuery()
+            {
+                Id = Id.ToString()
+            });
+
+
+            return Ok(taskGetPlants);
+        }
+
         [HttpGet("search/common-name")]
         public async Task<IActionResult> GetPlantsByCommonName(string commonName = "")
         {
@@ -278,7 +317,69 @@ namespace PlantDex.Api.Controllers
 
             return Ok(taskAddContribution);
         }
-
         
+        [HttpPost("classify")]
+        public async Task<IActionResult> ClassifyPlant(UploadedImageFile uploadedImageFile)
+        {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+            if (!ModelState.IsValid)
+                return BadRequest(new PlantsManagementResponse() { errors = null, isSuccessful = false, message = "Invalid Parameters", plants = null});
+
+            try
+            {
+                string destinationPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot\\image_classifier\\que", uploadedImageFile.fileName);
+                uploadedImageFile._fileData = new byte[uploadedImageFile.fileData.Length];
+                Buffer.BlockCopy(uploadedImageFile.fileData, 0, uploadedImageFile._fileData, 0, uploadedImageFile.fileData.Length);
+                await System.IO.File.WriteAllBytesAsync(destinationPath, uploadedImageFile._fileData);
+                List<string> classificationResults = plantClassifierService.classifyImage(uploadedImageFile.fileName);
+
+                string[] plantResults = classificationResults[0].Split('\n')[1]
+                    .Split(',');
+
+                List<PlantClassificationResult> plantClassificationResults = new List<PlantClassificationResult>();
+                foreach(var subStr in plantResults)
+                {
+                    string[] classificationDetails = subStr.Split(':');
+                    
+                    if (classificationDetails.Length < 2) continue;
+
+                    Plant plant = await mediator.Send(new GetSpecificPlantByScientificNameQuery() { ScientificName = classificationDetails[0] });
+                    plantClassificationResults.Add(new PlantClassificationResult()
+                    {
+                        plant = plant,
+                        percentConfidence = Convert.ToDouble(classificationDetails[1])
+                    });
+                }
+
+                return Ok(new ClassifyPlantResponse()
+                {
+                    plantClassificationResults = plantClassificationResults,
+                    errors = null,
+                    isSuccessful = true,
+                    message = "Successfully Retrieved List of Results"
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new PlantsManagementResponse()
+                {
+                    isSuccessful = false,
+                    errors = new List<string> { ex.Message},
+                    message = "Internal Server Error",
+                    plants = null
+                });
+            }
+            
+            
+        }
     }
 }
