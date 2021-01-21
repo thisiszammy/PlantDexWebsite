@@ -312,12 +312,29 @@ namespace PlantDex.Api.Controllers
                 string[] plantResults = classificationResults[0].Split('\n')[1]
                     .Split(',');
 
-                return Ok(new PlantsManagementResponse()
+                List<PlantClassificationResult> plantClassificationResults = new List<PlantClassificationResult>();
+                foreach(var subStr in plantResults)
                 {
+                    string[] classificationDetails = subStr.Split(':');
+                    
+                    if (classificationDetails.Length < 2) continue;
+
+                    Plant plant = await mediator.Send(new GetSpecificPlantByScientificNameQuery() { ScientificName = classificationDetails[0] });
+                    plantClassificationResults.Add(new PlantClassificationResult()
+                    {
+                        commonName = plant.CommonName,
+                        Id = plant.Id,
+                        percentConfidence = Convert.ToDouble(classificationDetails[1]),
+                        scientificName = plant.ScientificName
+                    });
+                }
+
+                return Ok(new ClassifyPlantResponse()
+                {
+                    classificationResults = plantClassificationResults,
+                    errors = null,
                     isSuccessful = true,
-                    errors = new List<string> { classificationResults[1] },
-                    message = plantResults[0] + " - " + plantResults[1] + " - " + plantResults[2],
-                    plants = null
+                    message = "Successfully Retrieved List of Results"
                 });
 
             }
