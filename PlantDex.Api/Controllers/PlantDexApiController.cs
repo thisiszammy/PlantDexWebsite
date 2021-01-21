@@ -74,6 +74,35 @@ namespace PlantDex.Api.Controllers
             });
         }
         
+        [HttpGet("get")]
+        public async Task<IActionResult> GetPlantById(int Id)
+        {
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+
+            if (Id == 0)
+                return BadRequest(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Request parameter is empty {commonName}"
+                });
+
+            var taskGetPlants = await mediator.Send(new GetPlantByIdQuery()
+            {
+                Id = Id.ToString()
+            });
+
+
+            return Ok(taskGetPlants);
+        }
+
         [HttpGet("search/common-name")]
         public async Task<IActionResult> GetPlantsByCommonName(string commonName = "")
         {
@@ -288,7 +317,7 @@ namespace PlantDex.Api.Controllers
             return Ok(taskAddContribution);
         }
         
-        [HttpPost("classify/test")]
+        [HttpPost("classify")]
         public async Task<IActionResult> ClassifyPlant(UploadedImageFile uploadedImageFile)
         {
             string accessKey = Request.Headers["Authorization"].ToString();
