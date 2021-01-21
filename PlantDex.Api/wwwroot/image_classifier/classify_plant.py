@@ -1,5 +1,6 @@
 import os
 import tensorflow as tf
+import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator  # for preprocessing
 from tensorflow.keras.models import Sequential
 
@@ -58,9 +59,8 @@ def tf_classifier():
 
 #Goes to the que folder and finds the first file alphabetically
 os.chdir("que")
-to_classify = os.listdir()[0]
+to_classify = sys.argv[1]
 os.chdir("../")
-
 
 #this moves the file to the ICU
 #the ICU is where the classifications happen
@@ -80,6 +80,6 @@ preds[max(preds)] = -1
 
 
 #this moves the file from the ICU to the done folder
-os.rename("classify/ICU/"+to_classify, "done/"+to_classify)
+os.remove("classify/ICU/"+to_classify)
 
 print(classs)

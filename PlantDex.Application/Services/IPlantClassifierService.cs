@@ -6,6 +6,6 @@ namespace PlantDex.Application.Services
 {
     public interface IPlantClassifierService
     {
-        public List<string> classifyImage(string filePath);
+        public List<string> classifyImage(string fileName);
     }
 }

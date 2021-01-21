@@ -1,4 +1,5 @@
 PlantDex.Application/ApplicationSecrets.cs
+PlantDex.Tester/
 
 # User-specific files
 *.suo

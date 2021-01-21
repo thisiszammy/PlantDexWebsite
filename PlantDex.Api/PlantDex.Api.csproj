@@ -21,4 +21,10 @@
     <ProjectReference Include="..\PlantDex.Infrastructure\PlantDex.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\image_classifier\classifications\" />
+    <Folder Include="wwwroot\image_classifier\classify\ICU\" />
+    <Folder Include="wwwroot\image_classifier\que\" />
+  </ItemGroup>
+
 </Project>

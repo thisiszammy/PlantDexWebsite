@@ -14,7 +14,7 @@ namespace PlantDex.Api.Services
         {
             ProcessStartInfo classifyImage = new ProcessStartInfo();
             classifyImage.FileName = "python";
-            classifyImage.Arguments = string.Format("\"{0}\" \"{1}\"", "C:\\MJ\\WebProjects\\PlantDex\\PlantDex.Api\\wwwroot\\image_classifier\\classify_plant.py", string.Empty);
+            classifyImage.Arguments = string.Format("\"{0}\" \"{1}\"", "C:\\MJ\\WebProjects\\PlantDex\\PlantDex.Api\\wwwroot\\image_classifier\\classify_plant.py", filePath);
             classifyImage.UseShellExecute = false;
             classifyImage.CreateNoWindow = true;
             classifyImage.RedirectStandardOutput = true;
@@ -26,7 +26,7 @@ namespace PlantDex.Api.Services
                 {
                     string stderr = process.StandardError.ReadToEnd(); 
                     string result = reader.ReadToEnd();
-                    return new List<string>() { result, stderr};
+                    return new List<string>() { result, stderr };
                 }
             }
         }
