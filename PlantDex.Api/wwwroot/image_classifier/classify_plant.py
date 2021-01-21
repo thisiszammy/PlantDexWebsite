@@ -7,13 +7,13 @@ from tensorflow.keras.models import Sequential
 os.chdir('wwwroot/image_classifier')
 
 #identified plants
-classes = ['Jao Costus spiralis', 'Jao Duranta erecta',
-           'Jao Ficus microcarpa', 'Jao Plant 1',
-           'Jao Plant 3', 'Jao Tradescantia zebrina',
-           'Rad Bamboo', 'Rad Calamasi',
-           'Rad Guyabano', 'Rad Indian Mango',
-           'Rad Langka', 'Rad P6',
-           'Rad STAR APPLE', 'plant1_cropped',
+classes = ['Costus spiralis', 'Duranta erecta',
+           'Ficus microcarpa', 'Jao Plant 1',
+           'Jao Plant 3', 'Tradescantia zebrina',
+           'Bamboo', 'Calamasi',
+           'Guyabano', 'Indian Mango',
+           'Langka', 'Rad P6',
+           'Star Apple', 'plant1_cropped',
            'plant2_cropped', 'plant3_cropped',
            'plant4_cropped', 'plant5_cropped',
            'plant6_cropped', 'plant7_cropped']
