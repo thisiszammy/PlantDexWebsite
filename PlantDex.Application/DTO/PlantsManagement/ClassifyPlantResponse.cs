@@ -9,7 +9,7 @@ namespace PlantDex.Application.DTO.PlantsManagement
         public string message { get; set; }
         public bool isSuccessful { get; set; }
         public IEnumerable<string> errors { get; set; }
-        public IEnumerable<PlantClassificationResult> classificationResults { get; set; }
+        public IEnumerable<PlantClassificationResult> plantClassificationResults { get; set; }
     }
 
 }
