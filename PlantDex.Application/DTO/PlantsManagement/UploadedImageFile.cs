@@ -12,6 +12,11 @@ namespace PlantDex.Application.DTO.PlantsManagement
         public string fileName { get; set;}
         public byte[] fileData { get; set;}
 
+        public UploadedImageFile()
+        {
+
+        }
+
         public UploadedImageFile(string filePath)
         {
             this.fileName = Path.GetFileName(Normalize(filePath));

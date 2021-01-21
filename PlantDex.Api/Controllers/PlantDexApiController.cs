@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlantDex.Application;
@@ -23,14 +25,17 @@ namespace PlantDex.Api.Controllers
         private readonly IMediator mediator;
         private readonly ApplicationSecrets applicationSecrets;
         private readonly IPlantClassifierService plantClassifierService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public PlantDexApiController(IMediator mediator,
             ApplicationSecrets applicationSecrets,
-            IPlantClassifierService plantClassifierService)
+            IPlantClassifierService plantClassifierService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.mediator = mediator;
             this.applicationSecrets = applicationSecrets;
             this.plantClassifierService = plantClassifierService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         // Plant Management related endpoints
@@ -283,10 +288,51 @@ namespace PlantDex.Api.Controllers
             return Ok(taskAddContribution);
         }
         
-        [HttpGet("classify/test")]
-        public IActionResult ClassifyPlant()
+        [HttpPost("classify/test")]
+        public async Task<IActionResult> ClassifyPlant(UploadedImageFile uploadedImageFile)
         {
-            return Ok(plantClassifierService.classifyImage(string.Empty)[0]);
+            string accessKey = Request.Headers["Authorization"].ToString();
+
+            if (accessKey.Trim().Length < 1 || applicationSecrets.authAccess != accessKey)
+                return Unauthorized(new PlantsManagementResponse
+                {
+                    isSuccessful = false,
+                    message = "Invalid Access Key"
+                });
+
+            if (!ModelState.IsValid)
+                return BadRequest(new PlantsManagementResponse() { errors = null, isSuccessful = false, message = "Invalid Parameters", plants = null});
+
+            try
+            {
+                string destinationPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot\\image_classifier\\que", uploadedImageFile.fileName);
+                await System.IO.File.WriteAllBytesAsync(destinationPath, uploadedImageFile.fileData);
+                List<string> classificationResults = plantClassifierService.classifyImage(uploadedImageFile.fileName);
+
+                string[] plantResults = classificationResults[0].Split('\n')[1]
+                    .Split(',');
+
+                return Ok(new PlantsManagementResponse()
+                {
+                    isSuccessful = true,
+                    errors = new List<string> { classificationResults[1] },
+                    message = plantResults[0] + " - " + plantResults[1] + " - " + plantResults[2],
+                    plants = null
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new PlantsManagementResponse()
+                {
+                    isSuccessful = false,
+                    errors = new List<string> { ex.Message},
+                    message = "Internal Server Error",
+                    plants = null
+                });
+            }
+            
+            
         }
     }
 }
