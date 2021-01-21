@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PlantDex.Application;
 using PlantDex.Application.Common.ContributionSubmissions.Commands;
 using PlantDex.Application.Common.Plants.Commands;
@@ -335,7 +336,9 @@ namespace PlantDex.Api.Controllers
             try
             {
                 string destinationPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot\\image_classifier\\que", uploadedImageFile.fileName);
-                await System.IO.File.WriteAllBytesAsync(destinationPath, uploadedImageFile.fileData);
+                uploadedImageFile._fileData = new byte[uploadedImageFile.fileData.Length];
+                Buffer.BlockCopy(uploadedImageFile.fileData, 0, uploadedImageFile._fileData, 0, uploadedImageFile.fileData.Length);
+                await System.IO.File.WriteAllBytesAsync(destinationPath, uploadedImageFile._fileData);
                 List<string> classificationResults = plantClassifierService.classifyImage(uploadedImageFile.fileName);
 
                 string[] plantResults = classificationResults[0].Split('\n')[1]
@@ -351,16 +354,14 @@ namespace PlantDex.Api.Controllers
                     Plant plant = await mediator.Send(new GetSpecificPlantByScientificNameQuery() { ScientificName = classificationDetails[0] });
                     plantClassificationResults.Add(new PlantClassificationResult()
                     {
-                        commonName = plant.CommonName,
-                        Id = plant.Id,
-                        percentConfidence = Convert.ToDouble(classificationDetails[1]),
-                        scientificName = plant.ScientificName
+                        plant = plant,
+                        percentConfidence = Convert.ToDouble(classificationDetails[1])
                     });
                 }
 
                 return Ok(new ClassifyPlantResponse()
                 {
-                    classificationResults = plantClassificationResults,
+                    plantClassificationResults = plantClassificationResults,
                     errors = null,
                     isSuccessful = true,
                     message = "Successfully Retrieved List of Results"

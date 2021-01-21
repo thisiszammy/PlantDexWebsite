@@ -10,7 +10,8 @@ namespace PlantDex.Application.DTO.PlantsManagement
     public class UploadedImageFile
     {
         public string fileName { get; set;}
-        public byte[] fileData { get; set;}
+        public sbyte[] fileData { get; set;}
+        public byte[] _fileData { get; set; }
 
         public UploadedImageFile()
         {
@@ -20,7 +21,6 @@ namespace PlantDex.Application.DTO.PlantsManagement
         public UploadedImageFile(string filePath)
         {
             this.fileName = Path.GetFileName(Normalize(filePath));
-            this.fileData = File.ReadAllBytes(filePath);
         }
 
         private string Normalize(string input)
