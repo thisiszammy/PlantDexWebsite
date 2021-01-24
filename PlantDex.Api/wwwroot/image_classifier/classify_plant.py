@@ -4,6 +4,7 @@ import sys
 from tensorflow.keras.preprocessing.image import ImageDataGenerator  # for preprocessing
 from tensorflow.keras.models import Sequential
 
+
 os.chdir('wwwroot/image_classifier')
 
 #identified plants
@@ -82,4 +83,4 @@ preds[max(preds)] = -1
 #this moves the file from the ICU to the done folder
 os.remove("classify/ICU/"+to_classify)
 
-print(classs)
+print("Classification_Result-" + classs)

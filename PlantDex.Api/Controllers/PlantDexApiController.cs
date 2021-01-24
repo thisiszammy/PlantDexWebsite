@@ -333,6 +333,7 @@ namespace PlantDex.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new PlantsManagementResponse() { errors = null, isSuccessful = false, message = "Invalid Parameters", plants = null});
 
+            string classifierResponse = string.Empty;
             try
             {
                 string destinationPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot\\image_classifier\\que", uploadedImageFile.fileName);
@@ -341,8 +342,9 @@ namespace PlantDex.Api.Controllers
                 await System.IO.File.WriteAllBytesAsync(destinationPath, uploadedImageFile._fileData);
                 List<string> classificationResults = plantClassifierService.classifyImage(uploadedImageFile.fileName);
 
-                string[] plantResults = classificationResults[0].Split('\n')[1]
-                    .Split(',');
+                classifierResponse = classificationResults[1];
+
+                string[] plantResults = classificationResults[0].Split(',');
 
                 List<PlantClassificationResult> plantClassificationResults = new List<PlantClassificationResult>();
                 foreach(var subStr in plantResults)
@@ -362,7 +364,7 @@ namespace PlantDex.Api.Controllers
                 return Ok(new ClassifyPlantResponse()
                 {
                     plantClassificationResults = plantClassificationResults,
-                    errors = null,
+                    errors = new List<string>() { classifierResponse, classificationResults[2].Substring(classificationResults[2].Length) },
                     isSuccessful = true,
                     message = "Successfully Retrieved List of Results"
                 });
@@ -373,7 +375,7 @@ namespace PlantDex.Api.Controllers
                 return BadRequest(new PlantsManagementResponse()
                 {
                     isSuccessful = false,
-                    errors = new List<string> { ex.Message},
+                    errors = new List<string> { ex.Message, classifierResponse},
                     message = "Internal Server Error",
                     plants = null
                 });
