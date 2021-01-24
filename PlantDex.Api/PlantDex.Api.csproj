@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\image_classifier\classifications\**" />
+    <Content Remove="wwwroot\image_classifier\classifications\**" />
+    <EmbeddedResource Remove="wwwroot\image_classifier\classifications\**" />
+    <None Remove="wwwroot\image_classifier\classifications\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -19,12 +26,6 @@
     <ProjectReference Include="..\PlantDex.Application\PlantDex.Application.csproj" />
     <ProjectReference Include="..\PlantDex.Domain\PlantDex.Domain.csproj" />
     <ProjectReference Include="..\PlantDex.Infrastructure\PlantDex.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\image_classifier\classifications\" />
-    <Folder Include="wwwroot\image_classifier\classify\ICU\" />
-    <Folder Include="wwwroot\image_classifier\que\" />
   </ItemGroup>
 
 </Project>
