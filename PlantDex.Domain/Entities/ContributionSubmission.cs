@@ -12,6 +12,6 @@ namespace PlantDex.Domain.Entities
         public string CommonName { get; set; }
         public string Remarks { get; set; }
         public string Locations { get; set; }
-
+        public byte[] SubmittedImage { get; set; }
     }
 }
