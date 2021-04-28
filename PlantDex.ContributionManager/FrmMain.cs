@@ -57,6 +57,7 @@ namespace PlantDex.ContributionManager
                                 Locations = reader["Locations"].ToString(),
                                 Timestamp = Convert.ToDateTime(reader["Timestamp"]),
                                 Id = Convert.ToInt32(reader["Id"].ToString()),
+                                SubmittedImage = (byte[])reader["SubmittedImage"]
                             });
                         }
                     }
@@ -112,6 +113,7 @@ namespace PlantDex.ContributionManager
             workSheet.Cells[1, 5].Value = "Remarks";
             workSheet.Cells[1, 6].Value = "Locations";
             workSheet.Cells[1, 7].Value = "Timestamp";
+
 
             int ctr = 2;
             foreach(var item in LoadContributions())

@@ -122,13 +122,14 @@ namespace PlantDex.ContributionManager
             {
                 using (SqlConnection con = ClsConnection.GetConnection())
                 {
-                    SqlCommand com = new SqlCommand("INSERT INTO dbo.VerifiedContributionSubmissions(ScientificName, CommonName, Remarks, Locations, Timestamp) " +
-                        "VALUES(@ScientificName, @CommonName, @Remarks, @Locations, GETDATE())", con);
+                    SqlCommand com = new SqlCommand("INSERT INTO dbo.VerifiedContributionSubmissions(ScientificName, CommonName, Remarks, Locations, Timestamp, SubmittedImage) " +
+                        "VALUES(@ScientificName, @CommonName, @Remarks, @Locations, GETDATE(), @SubmittedImage)", con);
 
                     com.Parameters.AddWithValue("@ScientificName", contribution.ScientificName);
                     com.Parameters.AddWithValue("@CommonName", contribution.CommonName);
                     com.Parameters.AddWithValue("@Remarks", contribution.Remarks);
                     com.Parameters.AddWithValue("@Locations", contribution.Locations);
+                    com.Parameters.AddWithValue("@SubmittedImage", contribution.SubmittedImage);
                     com.ExecuteNonQuery();
 
                 }
