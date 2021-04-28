@@ -184,6 +184,9 @@ namespace PlantDex.Infrastructure.Migrations
                     b.Property<string>("ScientificName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("SubmittedImage")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("ContributionSubmissions");
@@ -219,6 +222,9 @@ namespace PlantDex.Infrastructure.Migrations
 
                     b.Property<string>("Locations")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PlantImage")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PreviousValue")
                         .HasColumnType("nvarchar(max)");

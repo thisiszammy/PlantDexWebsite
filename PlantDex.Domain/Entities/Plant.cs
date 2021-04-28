@@ -14,6 +14,7 @@ namespace PlantDex.Domain.Entities
         public string Description { get; set; }
         public string Attributes { get; set; }  // stringified JSON Array of PlantAttribute
         public string Locations { get; set; }
+        public byte[] PlantImage { get; set; }
         public string _Id { get; set; }
     }
 }

@@ -17,6 +17,9 @@ namespace PlantDex.Application.Common.ContributionSubmissions.Commands
         public string commonName { get; set; }
         public string remarks { get; set; }
         public string locations { get; set; }
+        public string fileName { get; set; }
+        public sbyte[] fileData { get; set; }
+        public byte[] _fileData { get; set; }
 
         public class AddContributionSubmissionCommandHandler : IRequestHandler<AddContributionSubmissionCommand, ContributionsManagementResponse>
         {
@@ -34,7 +37,8 @@ namespace PlantDex.Application.Common.ContributionSubmissions.Commands
                     ScientificName = request.scientificName,
                     CreatedOn = DateTime.Now,
                     Remarks = request.remarks,
-                    Locations = request.locations
+                    Locations = request.locations,
+                    SubmittedImage = request._fileData
                 };
 
                 ContributionsManagementResponse contributionsManagementResponse = new ContributionsManagementResponse()
