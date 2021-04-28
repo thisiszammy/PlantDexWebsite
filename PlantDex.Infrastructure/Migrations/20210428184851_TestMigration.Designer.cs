@@ -10,8 +10,8 @@ using PlantDex.Infrastructure.Persistence;
 namespace PlantDex.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210106205244_InitDb2")]
-    partial class InitDb2
+    [Migration("20210428184851_TestMigration")]
+    partial class TestMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,6 +152,48 @@ namespace PlantDex.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("PlantDex.Domain.Entities.ContributionSubmission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CommonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Locations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreviousValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScientificName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("SubmittedImage")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContributionSubmissions");
+                });
+
             modelBuilder.Entity("PlantDex.Domain.Entities.Plant", b =>
                 {
                     b.Property<int>("Id")
@@ -183,6 +225,9 @@ namespace PlantDex.Infrastructure.Migrations
                     b.Property<string>("Locations")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("PlantImage")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("PreviousValue")
                         .HasColumnType("nvarchar(max)");
 
@@ -195,6 +240,78 @@ namespace PlantDex.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Plants");
+                });
+
+            modelBuilder.Entity("PlantDex.Domain.Entities.SubmittedAppRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PreviousValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubmittedAppRatings");
+                });
+
+            modelBuilder.Entity("PlantDex.Domain.Entities.SubmittedComplaint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PreviousValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("appVersion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phoneVersion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubmittedComplaints");
                 });
 
             modelBuilder.Entity("PlantDex.Infrastructure.Persistence.ApplicationUser", b =>
@@ -224,6 +341,9 @@ namespace PlantDex.Infrastructure.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAdminApproved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
