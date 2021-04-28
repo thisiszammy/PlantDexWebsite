@@ -307,12 +307,31 @@ namespace PlantDex.Api.Controllers
                     message = "Invalid Request Parameters"
                 });
 
+            try
+            {
+                string destinationPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot\\contribute\\submitted_image", addContributionSubmissionCommand.fileName);
+                addContributionSubmissionCommand._fileData = new byte[addContributionSubmissionCommand.fileData.Length];
+                Buffer.BlockCopy(addContributionSubmissionCommand.fileData, 0, addContributionSubmissionCommand._fileData, 0, addContributionSubmissionCommand.fileData.Length);
+                await System.IO.File.WriteAllBytesAsync(destinationPath, addContributionSubmissionCommand._fileData);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new PlantsManagementResponse()
+                {
+                    isSuccessful = false,
+                    errors = new List<string> { ex.Message },
+                    message = "Internal Server Error",
+                    plants = null
+                });
+            }
+
             var taskAddContribution = await mediator.Send(new AddContributionSubmissionCommand
             {
                 commonName = addContributionSubmissionCommand.commonName,
                 locations = addContributionSubmissionCommand.locations,
                 remarks = addContributionSubmissionCommand.remarks,
-                scientificName = addContributionSubmissionCommand.scientificName
+                scientificName = addContributionSubmissionCommand.scientificName,
+                _fileData = addContributionSubmissionCommand._fileData
             });
 
             return Ok(taskAddContribution);
