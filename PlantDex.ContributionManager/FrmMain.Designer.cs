@@ -67,6 +67,7 @@ namespace PlantDex.ContributionManager
             this.deleteVerifiedSubmissionsToolStripMenuItem.Name = "deleteVerifiedSubmissionsToolStripMenuItem";
             this.deleteVerifiedSubmissionsToolStripMenuItem.Size = new System.Drawing.Size(163, 20);
             this.deleteVerifiedSubmissionsToolStripMenuItem.Text = "Delete Verified Submissions";
+            this.deleteVerifiedSubmissionsToolStripMenuItem.Visible = false;
             this.deleteVerifiedSubmissionsToolStripMenuItem.Click += new System.EventHandler(this.deleteVerifiedSubmissionsToolStripMenuItem_Click);
             // 
             // FrmMain
