@@ -1,7 +1,6 @@
-PlantDex.Application/ApplicationSecrets.cs
 PlantDex.Tester/
-ClsConnection.cs
-
+.git.bfg-report/
+bfg-1.14.0.jar
 # User-specific files
 *.suo
 *.user
